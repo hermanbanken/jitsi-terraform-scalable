@@ -1,0 +1,10 @@
+terraform.tfstate
+terraform.tfstate.backup
+.terraform
+*.swp
+*.swo
+terraform.tfvars
+terraform.tfvars.json
+*.auto.tfvars
+.DS_Store
+
