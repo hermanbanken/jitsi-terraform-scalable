@@ -32,3 +32,10 @@ Currently supports Google Cloud Platform (GCP) only.
   }]
 }
 ```
+
+## References / contribution
+- https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable
+- https://jitsi.github.io/handbook/docs/devops-guide/secure-domain
+- https://github.com/mavenik/jitsi-terraform/blob/master/aws/main.tf
+- Downtime = "reload screen", how it is on meet.jit.si. https://community.jitsi.org/t/update-a-jitsi-meet-shard-without-service-downtime/33860/2
+- Load Balance based on `room=[roomid]` parameter: https://community.jitsi.org/t/jitsi-meet-jicofo-jvb-prosody-high-availability-and-load-balance/21450/4
