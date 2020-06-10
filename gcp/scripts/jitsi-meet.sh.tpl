@@ -3,8 +3,8 @@
 
 # Include shared preparations above this line.
 apt-get -y install \
-  nginx
-	prosody jicofo jitsi-meet-web jitsi-meet-prosody jitsi-meet-web-config
+  nginx \
+  prosody jicofo jitsi-meet-web jitsi-meet-prosody jitsi-meet-web-config \
   google-cloud-sdk
 
 # https://github.com/jitsi/jitsi-meet/blob/4080/doc/manual-install.md

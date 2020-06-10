@@ -1,5 +1,6 @@
 resource "google_compute_network" "default" {
   name = "default" # import!
+  description = var.network_description
 	lifecycle {
     prevent_destroy = true # imported, do not delete
   }

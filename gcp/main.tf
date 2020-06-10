@@ -3,23 +3,29 @@ provider "google" {
   version = "~> 3.0"
 }
 
+provider "random" {
+  version = "~> 2.2"
+}
+
 resource "random_id" "rnd" {
   byte_length = 4
 }
 
 locals {
-  shard_id = random_id.rnd
+  shard_id = random_id.rnd.hex
 }
 
 resource "google_dns_managed_zone" "default" {
   # Import this resource!
+  name = var.dnszone_name
+  dns_name = var.dnszone_dnsname
   lifecycle {
     prevent_destroy = true # imported, do not delete
   }
 }
 
 resource "google_dns_record_set" "meet" {
-  name = "meet-${locals.shard_id}"
+  name = "meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}"
   type = "A"
   ttl  = 300
   managed_zone = google_dns_managed_zone.default.name
