@@ -13,6 +13,10 @@ Currently supports Google Cloud Platform (GCP) only.
 
 ## Example configuration
 
+```bash
+terraform apply -var-file terraform.tfvars.json
+```
+
 `terraform.tfvars.json` could look like this:
 
 ```json
@@ -20,22 +24,13 @@ Currently supports Google Cloud Platform (GCP) only.
   "gcp_project": "your-gcp-project-1234",
   "jitsi_hostname": "jitsi.example.org",
   "jitsi_bucket_certificates": "jitsi-bucket-preshared-certificates-1234",
-  "jitsi_shards": [
-    {
-      "id": 1,
-      "size": 2,
-      "region": "europe-west4",
-      "zone": "europe-west4-b",
-      "machineType": "n2-standard-4"
-    },
-    {
-      "id": 2,
-      "size": 2,
-      "region": "europe-west4",
-      "zone": "europe-west4-c",
-      "machineType": "n2-standard-4"
-    }
-  ]
+  "jitsi_shard": {
+    "id": 1,
+    "size": 2,
+    "region": "europe-west4",
+    "zone": "europe-west4-b",
+    "machineType": "n2-standard-4"
+  }
 }
 ```
 

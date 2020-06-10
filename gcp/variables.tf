@@ -13,26 +13,20 @@ variable "jitsi_bucket_certificates" {
   type = string
 }
 
-variable "jitsi_shards" {
-  description = "Amount of Jitsi Meet shards (prosody, jicofo, meet)"
-  type        = list(object({
+variable "jitsi_shard" {
+  description = "Jitsi Meet shard settings (prosody, jicofo, meet)"
+  type        = object({
     id=number,
     size=number,
     region=string,
     zone=string,
     machineType=string
-  }))
-	default     = [{
+  })
+	default     = {
     id = 1,
     size = 2,
     region = "europe-west1",
     zone = "europe-west1-b",
     machineType = "f1-micro"
-  },{
-    id = 2,
-    size = 2,
-    region = "europe-west1",
-    zone = "europe-west1-c",
-    machineType = "f1-micro"
-  }]
+  }
 }
