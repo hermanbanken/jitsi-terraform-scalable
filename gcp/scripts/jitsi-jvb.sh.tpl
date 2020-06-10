@@ -1,19 +1,10 @@
-echo "Starting to install Jitsi Video Bridge" >> /debug.txt
-export XMPP_AUTH_PASSWORD="${jitsi_xmpp_auth_password}"
+# echo "Starting to install Jitsi Video Bridge" >> /debug.txt
+# export XMPP_AUTH_PASSWORD="${jitsi_xmpp_auth_password}"
 
-echo "Preparing configuration"
-apt-get install debconf-utils
-cat << EOF | sudo debconf-set-selections
-jitsi-videobridge   jitsi-videobridge/jvb-hostname  string  ${jitsi_hostname}
-jitsi-meet  jitsi-meet/jvb-serve    boolean false
-jitsi-meet-prosody  jitsi-videobridge/jvb-hostname  string  ${jitsi_hostname}
-jitsi-meet-web-config   jitsi-meet/cert-choice  select  I want to use my own certificate
-jitsi-meet-web-config   jitsi-meet/cert-path-crt    string  /etc/ssl/${jitsi_hostname}.crt
-jitsi-meet-web-config   jitsi-meet/cert-path-key    string  /etc/ssl/${jitsi_hostname}.key
-EOF
-
-echo "Installing packages"
 apt-get install jitsi-videobridge2
+
+# TODO
+# set JVB nickname to something GCP Compute hostname
 
 # Is this still needed?
 # Source: https://github.com/jitsi/jitsi-meet/blob/4080/doc/manual-install.md

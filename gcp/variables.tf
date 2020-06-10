@@ -8,9 +8,20 @@ variable "jitsi_hostname" {
   type = string
 }
 
+variable "jitsi_bucket_certificates" {
+  description = "Name of GCS bucket containing the TLS certificates for Jitsi; files must be $jitsi_hostname.crt & $jitsi_hostname.key"
+  type = string
+}
+
 variable "jitsi_shards" {
   description = "Amount of Jitsi Meet shards (prosody, jicofo, meet)"
-  type        = list(object({ id=number, size=number, region=string, zone=string, machineType=string }))
+  type        = list(object({
+    id=number,
+    size=number,
+    region=string,
+    zone=string,
+    machineType=string
+  }))
 	default     = [{
     id = 1,
     size = 2,

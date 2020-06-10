@@ -7,4 +7,5 @@ terraform.tfvars
 terraform.tfvars.json
 *.auto.tfvars
 .DS_Store
-
+*.key
+*.crt

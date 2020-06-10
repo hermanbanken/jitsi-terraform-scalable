@@ -19,6 +19,7 @@ Currently supports Google Cloud Platform (GCP) only.
 {
   "gcp_project": "your-gcp-project-1234",
   "jitsi_hostname": "jitsi.example.org",
+  "jitsi_bucket_certificates": "jitsi-bucket-preshared-certificates-1234",
   "jitsi_shards": [
     {
       "id": 1,
