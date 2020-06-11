@@ -33,6 +33,14 @@ resource "google_dns_record_set" "meet" {
   rrdatas = [google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip]
 }
 
+resource "google_dns_record_set" "meet-auth" {
+  name = "auth.${local.hostname}."
+  type = "A"
+  ttl  = 300 /* 5 minutes */
+  managed_zone = google_dns_managed_zone.default.name
+  rrdatas = [google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip]
+}
+
 locals {
   shared_script = templatefile("${path.module}/scripts/jitsi-shared.sh.tpl", {
     jitsi_hostname = local.hostname
@@ -41,12 +49,11 @@ locals {
   meet_script = templatefile("${path.module}/scripts/jitsi-meet.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
-    jitsi_xmpp_auth_password = "todo"
   })
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
-    jitsi_xmpp_auth_password = "todo"
+    jitsi_jvbsecret = "random"
   })
 }
 

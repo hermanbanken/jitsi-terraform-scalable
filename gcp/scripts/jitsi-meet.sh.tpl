@@ -1,5 +1,4 @@
-# echo "Starting to install Jitsi Meet (prosody, jicofo, meet)" >> /debug.txt
-# export XMPP_AUTH_PASSWORD="${jitsi_xmpp_auth_password}"
+echo "Starting to install Jitsi Meet (prosody, jicofo, meet)"
 
 # Include shared preparations above this line.
 apt-get -y install \
