@@ -11,6 +11,10 @@ Currently supports Google Cloud Platform (GCP) only.
 - Creates startup scripts for each of the instance groups above
 - Creates required firewall configuration
 
+## Manual steps
+- Create terraform.tfvars.json
+- [Verify <yoursubdomain.example.org> name with Google](https://www.google.com/webmasters/verification/verification?domain=yoursubdomain.example.org)
+
 ## Example configuration
 
 ```bash
