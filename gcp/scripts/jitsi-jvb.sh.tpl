@@ -11,7 +11,7 @@ apt-get install -qq jitsi-videobridge2
 # https://github.com/jitsi/jitsi-videobridge/blob/0d6fb601878cbc735faa7261b9cc06195c842e41/doc/muc.md
 echo "Configuring jitsi-videobridge2 with nickname $${JVB_NICKNAME}"
 
-cat << EOF > /etc/jitsi/videobridge/config
+cat <<\EOF > /etc/jitsi/videobridge/config
 ${file_videobridge_config}
 EOF
 
@@ -19,7 +19,7 @@ sed -i "s|JITSI_INTERNAL_HOSTNAME|${jitsi_internal_hostname}|g" /etc/jitsi/video
 sed -i "s|JITSI_HOSTNAME|${jitsi_hostname}|g" /etc/jitsi/videobridge/config
 sed -i "s|JITSI_JVB_SECRET|${jitsi_jvbsecret}|g" /etc/jitsi/videobridge/config
 
-cat << EOF > /etc/jitsi/videobridge/sip-communicator.properties
+cat <<\EOF > /etc/jitsi/videobridge/sip-communicator.properties
 ${file_sip_communicator}
 EOF
 

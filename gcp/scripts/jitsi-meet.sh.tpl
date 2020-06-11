@@ -10,7 +10,7 @@ apt-get -y install \
 # https://github.com/jitsi/jitsi-meet/blob/4080/doc/manual-install.md
 # https://github.com/jitsi/jitsi-meet/blob/8758c222c6f4ffa6f2403ff1a4b097d3437b52a5/doc/example-config-files/multidomain/jitsi.example.com.multidomain.example
 rm /etc/nginx/sites-enabled/default
-cat << EOF > /etc/nginx/sites-available/${jitsi_hostname}.conf
+cat <<\EOF > /etc/nginx/sites-available/${jitsi_hostname}.conf
 ${file_nginx_site_conf}
 EOF
 sed -i "s|JITSI_HOSTNAME|${jitsi_hostname}|g" /etc/nginx/sites-available/${jitsi_hostname}.conf
