@@ -1,8 +1,27 @@
 # Generate temporary self-signed certificates
+
+cat << EOF > req.conf
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = NL
+ST = ZH
+O = Q42
+CN = ${jitsi_hostname}
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ${jitsi_hostname}
+EOF
+
 openssl req -nodes -new -x509 \
+  -config req.conf -extensions 'v3_req' -days 90 \
   -keyout /etc/ssl/${jitsi_hostname}.key \
-  -out /etc/ssl/${jitsi_hostname}.crt \
-  -subj "/C=NL/ST=ZH/O=Q42/CN=${jitsi_hostname}"
+  -out /etc/ssl/${jitsi_hostname}.crt
 
 # Prepare configuration
 apt-get install -y debconf-utils
