@@ -8,7 +8,7 @@ resource "google_compute_instance_from_template" "meet" {
   network_interface {
     network = "default"
     access_config {
-      public_ptr_domain_name = "${local.hostname}."
+      public_ptr_domain_name = "${local.meet_hostname}."
       network_tier = "PREMIUM"
     }
   }
