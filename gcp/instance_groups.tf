@@ -20,7 +20,7 @@ module "mig-jvb" {
   project_id        = var.gcp_project
   region            = var.jitsi_shard.region
   hostname          = "jitsi-${local.shard_id}-jvb"
-	instance_template = google_compute_instance_template.jvb.self_link
+  instance_template = google_compute_instance_template.jvb.self_link
   min_replicas       = 2
   max_replicas       = 20
   cooldown_period = 120 /* seconds before metrics should be stable (read: after installation) */
