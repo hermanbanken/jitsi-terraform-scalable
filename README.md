@@ -41,7 +41,15 @@ terraform apply -var-file terraform.tfvars.json
 
 ## Debugging
 ```
+# jitsi-meet
 tail -f /var/log/prosody/prosody.* /var/log/jitsi/jicofo.log
+journalctl --since "1 hour ago" -f
+# errors only:
+journalctl --since "1 hour ago" -f -p "emerg".."crit"
+
+# JVB
+tail -f /var/log/jitsi/jvb.log
+journalctl --since "1 hour ago" -f
 ```
 
 ## References / contribution
