@@ -20,7 +20,9 @@ locals {
   hostname = trimsuffix("meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}", ".")
   meet_ip = google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip
   # [INSTANCE_NAME].c.[PROJECT_ID].internal
-  meet_internal_hostname = "${google_compute_instance_from_template.meet.name}.c.${var.gcp_project}.internal"
+  # meet_internal_hostname = "${google_compute_instance_from_template.meet.name}.c.${var.gcp_project}.internal"
+  meet_internal_hostname = trimsuffix("meet-${local.shard_id}-internal.${google_dns_managed_zone.default.dns_name}", ".")
+  meet_internal_ip = google_compute_instance_from_template.meet.network_interface[0].network_ip
 }
 
 resource "google_dns_managed_zone" "default" {
@@ -30,6 +32,14 @@ resource "google_dns_managed_zone" "default" {
   lifecycle {
     prevent_destroy = true # imported, do not delete
   }
+}
+
+resource "google_dns_record_set" "meet-internal" {
+  name = "${local.meet_internal_hostname}."
+  type = "A"
+  ttl  = 300 /* 5 minutes */
+  managed_zone = google_dns_managed_zone.default.name
+  rrdatas = [local.meet_internal_ip]
 }
 
 resource "google_dns_record_set" "meet" {
@@ -45,7 +55,7 @@ resource "google_dns_record_set" "meet-auth" {
   type = "A"
   ttl  = 300 /* 5 minutes */
   managed_zone = google_dns_managed_zone.default.name
-  rrdatas = [local.meet_ip]
+  rrdatas = [local.meet_internal_ip]
 }
 
 locals {
