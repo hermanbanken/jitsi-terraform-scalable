@@ -4,11 +4,10 @@ Currently supports Google Cloud Platform (GCP) only.
 
 ## How it works
 
-- Creates an 3 kinds of Managed Instance Groups (mig):
-  1. HAProxy: 1 or more HAProxies for failover with sticky routing to jitsi-meet
-  2. jitsi-meet (prosody, jicofo, jitsi-meet, nginx): 1 or more jitsi meet servers for redundancy
-  3. jitsi-video-bridge (JVB/SFU): more than 2 jvb for scalability
-- Creates startup scripts for each of the instance groups above
+- Creates an 2 kinds of instances:
+  2. jitsi-meet (prosody, jicofo, jitsi-meet, nginx): 1 jitsi-meet server
+  3. jitsi-video-bridge (JVB/SFU): **more than 2 jvb** for scalability joined in a Managed Instance Group with autoscaling
+- Creates startup scripts for each of the instances above
 - Creates required firewall configuration
 
 ## Manual steps
@@ -55,6 +54,11 @@ journalctl --since "1 hour ago" -f -p "emerg".."crit"
 tail -f /var/log/jitsi/jvb.log
 journalctl --since "1 hour ago" -f
 ```
+
+## TODO
+- [x] Implement scalable setup from https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable
+- [ ] Add option for HAProxy for scalable/highly-available jitsi-meet and XMPP server
+- [ ] Add option for secure domain: https://jitsi.github.io/handbook/docs/devops-guide/secure-domain
 
 ## References / contribution
 
