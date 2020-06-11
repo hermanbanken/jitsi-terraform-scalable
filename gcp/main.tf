@@ -13,7 +13,7 @@ resource "random_id" "rnd" {
 
 locals {
   shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
-  hostname = "meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}"
+  hostname = trimsuffix("meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}", ".")
 }
 
 resource "google_dns_managed_zone" "default" {
@@ -26,9 +26,9 @@ resource "google_dns_managed_zone" "default" {
 }
 
 resource "google_dns_record_set" "meet" {
-  name = local.hostname
+  name = "${local.hostname}."
   type = "A"
-  ttl  = 300
+  ttl  = 300 /* 5 minutes */
   managed_zone = google_dns_managed_zone.default.name
   rrdatas = [google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip]
 }
