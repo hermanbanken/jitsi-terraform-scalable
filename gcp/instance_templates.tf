@@ -1,5 +1,5 @@
 resource "google_compute_instance_template" "meet" {
-  name = "jitsi-template-meet"
+  name = "jitsi-template-meet-${local.shard_id}"
   tags = ["allow-jitsi-meet"]
   labels = { "shard" = var.jitsi_shard.id }
   machine_type         = var.jitsi_shard.machineType
@@ -23,7 +23,7 @@ resource "google_compute_instance_template" "meet" {
 }
 
 resource "google_compute_instance_template" "jvb" {
-  name        = "jitsi-template-jvb"
+  name        = "jitsi-template-jvb-${local.shard_id}"
   tags = ["allow-jitsi-jvb"]
   labels = { "shard" = var.jitsi_shard.id }
   machine_type         = var.jitsi_shard.machineType
