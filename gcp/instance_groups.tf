@@ -15,4 +15,24 @@ module "mig-jvb" {
 	instance_template = google_compute_instance_template.jvb.self_link
   min_replicas       = 2
   max_replicas       = 20
+  cooldown_period = 120 /* seconds before metrics should be stable (read: after installation) */
+  # health_check = google_compute_health_check.tcp_https_health_check.self_link
+
+  # Either target_size or autoscaler:
+  # target_size = 2
+  autoscaling_cpu = [{
+    target = 0.5
+  }]
+  autoscaling_enabled = true
+}
+
+resource "google_compute_health_check" "tcp_https_health_check" {
+  name = "tcp-health-check"
+  timeout_sec        = 2
+  check_interval_sec = 10
+  healthy_threshold   = 3
+  unhealthy_threshold = 5
+  tcp_health_check {
+    port = "443"
+  }
 }
