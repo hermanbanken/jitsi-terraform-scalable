@@ -39,6 +39,11 @@ terraform apply -var-file terraform.tfvars.json
 }
 ```
 
+## Debugging
+```
+tail -f /var/log/prosody/prosody.* /var/log/jitsi/jicofo.log
+```
+
 ## References / contribution
 
 - https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable
@@ -46,5 +51,5 @@ terraform apply -var-file terraform.tfvars.json
 - https://github.com/mavenik/jitsi-terraform/blob/master/aws/main.tf
 - Downtime = "reload screen", how it is on meet.jit.si. https://community.jitsi.org/t/update-a-jitsi-meet-shard-without-service-downtime/33860/2
 - Terraform: https://www.terraform.io/docs/providers/google/
-- https://github.com/jitsi/jitsi-meet/commit/f2df5906f6231cb586257d23055f545c24200350
+- "doc/example-config-files/scalable" files in https://github.com/jitsi/jitsi-meet/commit/f2df5906f6231cb586257d23055f545c24200350
 - Load Balance based on `room=[roomid]` parameter: https://community.jitsi.org/t/jitsi-meet-jicofo-jvb-prosody-high-availability-and-load-balance/21450/4
