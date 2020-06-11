@@ -3,7 +3,14 @@ resource "google_compute_instance_from_template" "meet" {
   source_instance_template = google_compute_instance_template.meet.id
   machine_type = var.jitsi_shard.machineType
   zone         = var.jitsi_shard.zone
+
   lifecycle { ignore_changes = [name] }
+  network_interface {
+    network = "default"
+    access_config {
+      public_ptr_domain_name = local.hostname
+    }
+  }
 }
 
 module "mig-jvb" {

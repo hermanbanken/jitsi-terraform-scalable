@@ -1,5 +1,4 @@
 export JVB_NICKNAME=$(hostname)
-echo "${jitsi_meet_ip}\t${jitsi_hostname}" >> /etc/hosts
 
 # Installation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#installation-of-videobridges
@@ -10,7 +9,7 @@ apt-get install -qq jitsi-videobridge2
 # Configuration; and relevant MUC documentation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#configuration-of-the-videobridge
 # https://github.com/jitsi/jitsi-videobridge/blob/0d6fb601878cbc735faa7261b9cc06195c842e41/doc/muc.md
-echo "Configuring jitsi-videobridge2 with nickanme \$JVB_NICKNAME"
+echo "Configuring jitsi-videobridge2 with nickanme $(hostname)"
 
 # IP addresses
 # No: "With the latest stable (April 2020) videobridge, it is no longer necessary to set public and private IP adresses in the sip-communicator.properties as the bridge will figure out the correct configuration by itself."
@@ -26,7 +25,7 @@ cat << EOF > /etc/jitsi/videobridge/config
 JVB_HOSTNAME=${jitsi_hostname}
 
 # sets the hostname of the XMPP server (default: domain if set, localhost otherwise)
-JVB_HOST=
+JVB_HOST=${jitsi_internal_hostname}
 
 # sets the port of the XMPP server (default: 5275)
 JVB_PORT=5347
@@ -52,7 +51,7 @@ org.jitsi.videobridge.ENABLE_STATISTICS=true
 org.jitsi.videobridge.STATISTICS_TRANSPORT=muc,colibri,rest
 org.jitsi.videobridge.STATISTICS_INTERVAL=5000
 
-org.jitsi.videobridge.xmpp.user.shard-1.HOSTNAME=${jitsi_hostname}
+org.jitsi.videobridge.xmpp.user.shard-1.HOSTNAME=${jitsi_internal_hostname}
 org.jitsi.videobridge.xmpp.user.shard-1.DOMAIN=auth.${jitsi_hostname}
 org.jitsi.videobridge.xmpp.user.shard-1.USERNAME=jvb
 org.jitsi.videobridge.xmpp.user.shard-1.PASSWORD=${jitsi_jvbsecret}

@@ -17,7 +17,8 @@ resource "google_compute_instance_template" "meet" {
   }
   network_interface {
     network = "default"
-    access_config {}
+    access_config {
+    }
   }
 	service_account { scopes = ["userinfo-email", "compute-ro", "storage-ro", "logging-write"] }
   lifecycle { ignore_changes = [name] }

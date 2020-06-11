@@ -19,6 +19,8 @@ locals {
   shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
   hostname = trimsuffix("meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}", ".")
   meet_ip = google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip
+  # [INSTANCE_NAME].c.[PROJECT_ID].internal
+  meet_internal_hostname = "${google_compute_instance_from_template.meet.name}.c.${var.gcp_project}.internal"
 }
 
 resource "google_dns_managed_zone" "default" {
@@ -57,6 +59,7 @@ locals {
   })
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
     jitsi_hostname = local.hostname
+    jitsi_internal_hostname = local.meet_internal_hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
     jitsi_jvbsecret = random_id.jvb_secret.b64_std
     jitsi_meet_ip = local.meet_ip
