@@ -68,17 +68,25 @@ locals {
     jitsi_hostname = local.hostname
     jitsi_jvbsecret = random_id.jvb_secret.b64_std
   })
+
+  file_nginx_site_conf = replace(file("${path.module}/scripts/nginx.site.conf"), "JITSI_HOSTNAME", local.hostname)
   meet_script = templatefile("${path.module}/scripts/jitsi-meet.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
     lets_encrypt_email = var.lets_encrypt_email
+    file_nginx_site_conf = local.file_nginx_site_conf
   })
+
+  file_videobridge_config = file("${path.module}/scripts/video-bridge-config.properties")
+  file_sip_communicator = file("${path.module}/scripts/sip-communicator.properties")
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_internal_hostname = local.meet_internal_hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
     jitsi_jvbsecret = random_id.jvb_secret.b64_std
     jitsi_meet_ip = local.meet_ip
+    file_videobridge_config = local.file_videobridge_config
+    file_sip_communicator = local.file_sip_communicator
   })
 }
 
