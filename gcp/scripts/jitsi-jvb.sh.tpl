@@ -1,4 +1,5 @@
 export JVB_NICKNAME=$(hostname)
+echo "${jitsi_meet_ip}\t${jitsi_hostname}" >> /etc/hosts
 
 # Installation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#installation-of-videobridges

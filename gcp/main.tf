@@ -18,6 +18,7 @@ resource "random_id" "jvb_secret" {
 locals {
   shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
   hostname = trimsuffix("meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}", ".")
+  meet_ip = google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip
 }
 
 resource "google_dns_managed_zone" "default" {
@@ -34,7 +35,7 @@ resource "google_dns_record_set" "meet" {
   type = "A"
   ttl  = 300 /* 5 minutes */
   managed_zone = google_dns_managed_zone.default.name
-  rrdatas = [google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip]
+  rrdatas = [local.meet_ip]
 }
 
 resource "google_dns_record_set" "meet-auth" {
@@ -42,7 +43,7 @@ resource "google_dns_record_set" "meet-auth" {
   type = "A"
   ttl  = 300 /* 5 minutes */
   managed_zone = google_dns_managed_zone.default.name
-  rrdatas = [google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip]
+  rrdatas = [local.meet_ip]
 }
 
 locals {
@@ -58,6 +59,7 @@ locals {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
     jitsi_jvbsecret = random_id.jvb_secret.b64_std
+    jitsi_meet_ip = local.meet_ip
   })
 }
 
