@@ -27,11 +27,11 @@ terraform apply -var-file terraform.tfvars.json
   "gcp_project": "your-gcp-project-1234",
   "dnszone_name": "yourdnszone",
   "dnszone_dnsname": "yourdnszone.example.org.",
-  "jitsi_hostname": "jitsi.example.org",
   "jitsi_bucket_certificates": "jitsi-bucket-preshared-certificates-1234",
   "jitsi_shard": {
     "id": 1,
     "size": 2,
+    "random": "random",
     "region": "europe-west4",
     "zone": "europe-west4-b",
     "machineType": "n2-standard-4"

@@ -12,7 +12,8 @@ resource "random_id" "rnd" {
 }
 
 locals {
-  shard_id = random_id.rnd.hex
+  shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
+  hostname = "meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}"
 }
 
 resource "google_dns_managed_zone" "default" {
@@ -25,7 +26,7 @@ resource "google_dns_managed_zone" "default" {
 }
 
 resource "google_dns_record_set" "meet" {
-  name = "meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}"
+  name = local.hostname
   type = "A"
   ttl  = 300
   managed_zone = google_dns_managed_zone.default.name
@@ -34,17 +35,25 @@ resource "google_dns_record_set" "meet" {
 
 locals {
   shared_script = templatefile("${path.module}/scripts/jitsi-shared.sh.tpl", {
-    jitsi_hostname = var.jitsi_hostname
+    jitsi_hostname = local.hostname
     jitsi_jvbsecret = "random" // todo
   })
   meet_script = templatefile("${path.module}/scripts/jitsi-meet.sh.tpl", {
-    jitsi_hostname = var.jitsi_hostname
+    jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
     jitsi_xmpp_auth_password = "todo"
   })
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
-    jitsi_hostname = var.jitsi_hostname
+    jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
     jitsi_xmpp_auth_password = "todo"
   })
+}
+
+output "hostname" {
+  value = local.hostname
+}
+
+output "instance_group_jvb" {
+  value = module.mig-jvb.instance_group
 }
