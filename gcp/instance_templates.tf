@@ -18,6 +18,7 @@ resource "google_compute_instance_template" "meet" {
   network_interface {
     network = "default"
     access_config {
+      network_tier = "PREMIUM"
     }
   }
 	service_account { scopes = ["userinfo-email", "compute-ro", "storage-ro", "logging-write"] }

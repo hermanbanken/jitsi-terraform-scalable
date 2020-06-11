@@ -15,10 +15,15 @@ resource "random_id" "jvb_secret" {
   byte_length = 64
 }
 
+# External
 locals {
   shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
   hostname = trimsuffix("meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}", ".")
   meet_ip = google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip
+}
+
+# Internal
+locals {
   # [INSTANCE_NAME].c.[PROJECT_ID].internal
   # meet_internal_hostname = "${google_compute_instance_from_template.meet.name}.c.${var.gcp_project}.internal"
   meet_internal_hostname = trimsuffix("meet-${local.shard_id}-internal.${google_dns_managed_zone.default.dns_name}", ".")
