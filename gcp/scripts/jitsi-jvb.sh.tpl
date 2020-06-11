@@ -1,9 +1,22 @@
 export JVB_NICKNAME=$(hostname)
 
+# Installation
+# https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#installation-of-videobridges
+apt-get install -qq jitsi-videobridge2
+# current version = 2.1-202-g5f9377b9-1
+# code = https://github.com/jitsi/jitsi-videobridge/tree/5f9377b9b2c8201a02e047426e341874f43ca1ee
+
 # Configuration; and relevant MUC documentation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#configuration-of-the-videobridge
 # https://github.com/jitsi/jitsi-videobridge/blob/0d6fb601878cbc735faa7261b9cc06195c842e41/doc/muc.md
 echo "Configuring jitsi-videobridge2 with nickanme \$JVB_NICKNAME"
+
+# IP addresses
+# No: "With the latest stable (April 2020) videobridge, it is no longer necessary to set public and private IP adresses in the sip-communicator.properties as the bridge will figure out the correct configuration by itself."
+# Source: https://github.com/jitsi/jitsi-meet/blob/4080/doc/scalable-installation.md
+# ~/.sip-communicator/sip-communicator.properties
+# org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=<Local.IP.Address>
+# org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=<Public.IP.Address>
 
 cat << EOF > /etc/jitsi/videobridge/config
 # Jitsi Videobridge settings
@@ -47,13 +60,5 @@ org.jitsi.videobridge.xmpp.user.shard-1.MUC_NICKNAME=\$JVB_NICKNAME
 org.jitsi.videobridge.xmpp.user.shard-1.DISABLE_CERTIFICATE_VERIFICATION=true
 EOF
 
-# IP addresses
-# No: "With the latest stable (April 2020) videobridge, it is no longer necessary to set public and private IP adresses in the sip-communicator.properties as the bridge will figure out the correct configuration by itself."
-# Source: https://github.com/jitsi/jitsi-meet/blob/4080/doc/scalable-installation.md
-# ~/.sip-communicator/sip-communicator.properties
-# org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=<Local.IP.Address>
-# org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=<Public.IP.Address>
-
-# Installation
-# https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#installation-of-videobridges
-apt-get install -qq jitsi-videobridge2
+# Reload
+/etc/init.d/jitsi-videobridge2 restart
