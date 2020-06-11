@@ -17,7 +17,7 @@ server {
     ssl_certificate     /etc/ssl/${jitsi_hostname}.crt;
     ssl_certificate_key /etc/ssl/${jitsi_hostname}.key;
     # set the root
-    root /srv/jitsi-meet;
+    root /usr/share/jitsi-meet;
     index index.html;
     location ~ ^/([a-zA-Z0-9=\?]+)$ {
         rewrite ^/(.*)$ / break;
@@ -36,7 +36,7 @@ server {
     # installation for the electron version of Jitsi Meet to work
     # https://github.com/jitsi/jitsi-meet-electron
     location /external_api.js {
-        alias /srv/jitsi-meet/libs/external_api.min.js;
+        alias /usr/share/jitsi-meet/libs/external_api.min.js;
     }
 }
 EOF
