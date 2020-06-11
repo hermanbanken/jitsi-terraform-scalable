@@ -43,7 +43,7 @@ resource "google_compute_firewall" "jitsi-frontend" {
     ports    = ["80", "443"]
   }
 
-  source_tags = ["jitsi-meet", "jitsi-haproxy"]
+  target_tags = ["jitsi-meet", "jitsi-haproxy"]
 }
 
 resource "google_compute_firewall" "jitsi-internal" {
