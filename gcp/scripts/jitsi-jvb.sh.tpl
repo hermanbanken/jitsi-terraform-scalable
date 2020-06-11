@@ -3,6 +3,7 @@ export JVB_NICKNAME=$(hostname)
 # Configuration; and relevant MUC documentation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#configuration-of-the-videobridge
 # https://github.com/jitsi/jitsi-videobridge/blob/0d6fb601878cbc735faa7261b9cc06195c842e41/doc/muc.md
+echo "Configuring jitsi-videobridge2 with nickanme \$JVB_NICKNAME"
 
 cat << EOF > /etc/jitsi/videobridge/config
 # Jitsi Videobridge settings
@@ -55,4 +56,4 @@ EOF
 
 # Installation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#installation-of-videobridges
-apt-get install -yq jitsi-videobridge2
+apt-get install -qq jitsi-videobridge2
