@@ -35,7 +35,7 @@ module "mig-jvb" {
 }
 
 resource "google_compute_health_check" "tcp_https_health_check" {
-  name = "tcp-health-check"
+  name = "tcp-health-check-${local.shard_id}"
   timeout_sec        = 2
   check_interval_sec = 10
   healthy_threshold   = 3
