@@ -31,6 +31,7 @@ terraform apply -var-file terraform.tfvars.json
   "gcp_project": "your-gcp-project-1234",
   "dnszone_name": "yourdnszone",
   "dnszone_dnsname": "yourdnszone.example.org.",
+  "lets_encrypt_email": "you@example.org",
   "jitsi_bucket_certificates": "jitsi-bucket-preshared-certificates-1234",
   "jitsi_shard": {
     "id": 1,

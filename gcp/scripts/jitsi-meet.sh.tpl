@@ -14,8 +14,9 @@ server {
     listen 0.0.0.0:443 ssl http2;
     listen [::]:443 ssl http2;
     server_name ${jitsi_hostname};
-    ssl_certificate     /etc/ssl/${jitsi_hostname}.crt;
-    ssl_certificate_key /etc/ssl/${jitsi_hostname}.key;
+    # auto-updated from here https://github.com/jitsi/jitsi-meet/blob/8758c222c6f4ffa6f2403ff1a4b097d3437b52a5/resources/install-letsencrypt-cert.sh#L68-L76
+    ssl_certificate     /etc/jitsi/meet/${jitsi_hostname}.crt;
+    ssl_certificate_key /etc/jitsi/meet/${jitsi_hostname}.key;
     # set the root
     root /usr/share/jitsi-meet;
     index index.html;
@@ -50,7 +51,8 @@ sed -i "s|cross_domain_bosh = false|cross_domain_bosh = true|g" /etc/prosody/con
 /etc/init.d/prosody restart
 /etc/init.d/jicofo restart
 
-# GSUtil for certificates in Google Cloud Storage
-gsutil cp gs://${jitsi_bucket_certificates}/${jitsi_hostname}.crt /etc/ssl/${jitsi_hostname}.crt
-gsutil cp gs://${jitsi_bucket_certificates}/${jitsi_hostname}.key /etc/ssl/${jitsi_hostname}.key
+# LetsEncrypt
+# See script: https://github.com/jitsi/jitsi-meet/blob/8758c222c6f4ffa6f2403ff1a4b097d3437b52a5/resources/install-letsencrypt-cert.sh
+echo "${lets_encrypt_email}" | /usr/share/jitsi-meet/scripts/install-letsencrypt-cert.sh
+
 nginx -s reload

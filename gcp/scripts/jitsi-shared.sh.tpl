@@ -19,10 +19,11 @@ subjectAltName = @alt_names
 DNS.1 = ${jitsi_hostname}
 EOF
 
+mkdir -p /etc/jitsi/meet/
 openssl req -nodes -new -x509 \
   -config req.conf -extensions 'v3_req' -days 90 \
-  -keyout /etc/ssl/${jitsi_hostname}.key \
-  -out /etc/ssl/${jitsi_hostname}.crt
+  -keyout /etc/jitsi/meet/${jitsi_hostname}.key \
+  -out /etc/jitsi/meet/${jitsi_hostname}.crt
 
 # Prepare configuration
 apt-get install -qq debconf-utils
@@ -32,8 +33,8 @@ jitsi-meet            jitsi-meet/jvb-serve              boolean false
 jitsi-meet-prosody    jitsi-videobridge/jvb-hostname    string ${jitsi_hostname}
 jitsi-meet-prosody    jitsi-videobridge/jvbsecret       password ${jitsi_jvbsecret}
 jitsi-meet-web-config jitsi-meet/cert-choice            select I want to use my own certificate
-jitsi-meet-web-config jitsi-meet/cert-path-crt          string /etc/ssl/${jitsi_hostname}.crt
-jitsi-meet-web-config jitsi-meet/cert-path-key          string /etc/ssl/${jitsi_hostname}.key
+jitsi-meet-web-config jitsi-meet/cert-path-crt          string /etc/jitsi/meet/${jitsi_hostname}.crt
+jitsi-meet-web-config jitsi-meet/cert-path-key          string /etc/jitsi/meet/${jitsi_hostname}.key
 EOF
 
 # Package repos

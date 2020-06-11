@@ -71,6 +71,7 @@ locals {
   meet_script = templatefile("${path.module}/scripts/jitsi-meet.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
+    lets_encrypt_email = var.lets_encrypt_email
   })
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
     jitsi_hostname = local.hostname

@@ -8,6 +8,11 @@ variable "jitsi_bucket_certificates" {
   type = string
 }
 
+variable "lets_encrypt_email" {
+  description = "Needed by LetsEncrypt"
+  type = string
+}
+
 variable "jitsi_shard" {
   description = "Jitsi Meet shard settings (prosody, jicofo, meet)"
   type        = object({
