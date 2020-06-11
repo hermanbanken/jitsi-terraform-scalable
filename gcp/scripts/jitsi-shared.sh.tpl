@@ -19,11 +19,14 @@ subjectAltName = @alt_names
 DNS.1 = ${jitsi_hostname}
 EOF
 
-mkdir -p /etc/jitsi/meet/
-openssl req -nodes -new -x509 \
-  -config req.conf -extensions 'v3_req' -days 90 \
-  -keyout /etc/jitsi/meet/${jitsi_hostname}.key \
-  -out /etc/jitsi/meet/${jitsi_hostname}.crt
+# Only write these certificates on first boot
+if [ ! -f "/etc/jitsi/meet/${jitsi_hostname}.crt" ]; then
+  mkdir -p /etc/jitsi/meet/
+  openssl req -nodes -new -x509 \
+    -config req.conf -extensions 'v3_req' -days 90 \
+    -keyout /etc/jitsi/meet/${jitsi_hostname}.key \
+    -out /etc/jitsi/meet/${jitsi_hostname}.crt
+fi
 
 # Prepare configuration
 apt-get install -qq debconf-utils

@@ -24,7 +24,8 @@ sed -i "s|cross_domain_bosh = false|cross_domain_bosh = true|g" /etc/prosody/con
 /etc/init.d/jicofo restart
 
 # LetsEncrypt
-# See script: https://github.com/jitsi/jitsi-meet/blob/8758c222c6f4ffa6f2403ff1a4b097d3437b52a5/resources/install-letsencrypt-cert.sh
-echo "${lets_encrypt_email}" | /usr/share/jitsi-meet/scripts/install-letsencrypt-cert.sh
-
-nginx -s reload
+if [ ! -d "/etc/letsencrypt/live" ]; then
+  # See script: https://github.com/jitsi/jitsi-meet/blob/8758c222c6f4ffa6f2403ff1a4b097d3437b52a5/resources/install-letsencrypt-cert.sh
+  echo "${lets_encrypt_email}" | /usr/share/jitsi-meet/scripts/install-letsencrypt-cert.sh
+  nginx -s reload
+fi
