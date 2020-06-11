@@ -5,8 +5,10 @@ Currently supports Google Cloud Platform (GCP) only.
 ## How it works
 
 - Creates an 2 kinds of instances:
-  2. jitsi-meet (prosody, jicofo, jitsi-meet, nginx): 1 jitsi-meet server
-  3. jitsi-video-bridge (JVB/SFU): **more than 2 jvb** for scalability joined in a Managed Instance Group with autoscaling
+
+  1. jitsi-meet (prosody, jicofo, jitsi-meet, nginx): 1 jitsi-meet server
+  2. jitsi-video-bridge (JVB/SFU): **more than 2 jvb** for scalability joined in a Managed Instance Group with autoscaling
+
 - Creates startup scripts for each of the instances above
 - Creates required firewall configuration
 
