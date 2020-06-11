@@ -11,6 +11,10 @@ resource "random_id" "rnd" {
   byte_length = 4
 }
 
+resource "random_id" "jvb_secret" {
+  byte_length = 64
+}
+
 locals {
   shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
   hostname = trimsuffix("meet-${local.shard_id}.${google_dns_managed_zone.default.dns_name}", ".")
@@ -44,7 +48,7 @@ resource "google_dns_record_set" "meet-auth" {
 locals {
   shared_script = templatefile("${path.module}/scripts/jitsi-shared.sh.tpl", {
     jitsi_hostname = local.hostname
-    jitsi_jvbsecret = "random" // todo
+    jitsi_jvbsecret = jvb_secret.b64_std
   })
   meet_script = templatefile("${path.module}/scripts/jitsi-meet.sh.tpl", {
     jitsi_hostname = local.hostname
@@ -53,7 +57,7 @@ locals {
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
-    jitsi_jvbsecret = "random"
+    jitsi_jvbsecret = jvb_secret.b64_std
   })
 }
 
