@@ -31,7 +31,7 @@ resource "google_compute_network" "default" {
 #                                            +---------------------+
 
 resource "google_compute_firewall" "jitsi-frontend" {
-  name    = "jitsi-frontend"
+  name    = "jitsi-frontend-${local.shard_id}"
   network = google_compute_network.default.name
 
   allow {
@@ -47,7 +47,7 @@ resource "google_compute_firewall" "jitsi-frontend" {
 }
 
 resource "google_compute_firewall" "jitsi-internal" {
-  name    = "jitsi-internal"
+  name    = "jitsi-internal-${local.shard_id}"
   network = google_compute_network.default.name
 
   allow {
@@ -64,7 +64,7 @@ resource "google_compute_firewall" "jitsi-internal" {
 }
 
 resource "google_compute_firewall" "jitsi-jvb" {
-  name    = "jitsi-jvb"
+  name    = "jitsi-jvb-${local.shard_id}"
   network = google_compute_network.default.name
 
   allow {
