@@ -48,7 +48,7 @@ resource "google_dns_record_set" "meet-auth" {
 locals {
   shared_script = templatefile("${path.module}/scripts/jitsi-shared.sh.tpl", {
     jitsi_hostname = local.hostname
-    jitsi_jvbsecret = jvb_secret.b64_std
+    jitsi_jvbsecret = random_id.jvb_secret.b64_std
   })
   meet_script = templatefile("${path.module}/scripts/jitsi-meet.sh.tpl", {
     jitsi_hostname = local.hostname
@@ -57,7 +57,7 @@ locals {
   jvb_script = templatefile("${path.module}/scripts/jitsi-jvb.sh.tpl", {
     jitsi_hostname = local.hostname
     jitsi_bucket_certificates = var.jitsi_bucket_certificates
-    jitsi_jvbsecret = jvb_secret.b64_std
+    jitsi_jvbsecret = random_id.jvb_secret.b64_std
   })
 }
 
