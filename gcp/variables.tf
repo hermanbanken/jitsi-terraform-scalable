@@ -3,11 +3,6 @@ variable "gcp_project" {
   type        = string
 }
 
-variable "jitsi_bucket_certificates" {
-  description = "Name of GCS bucket containing the TLS certificates for Jitsi; files must be $jitsi_hostname.crt & $jitsi_hostname.key"
-  type = string
-}
-
 variable "lets_encrypt_email" {
   description = "Needed by LetsEncrypt"
   type = string
