@@ -27,7 +27,7 @@ JVB_OPTS="--apis=rest,"
 JAVA_SYS_PROPS="-Dnet.java.sip.communicator.SC_HOME_DIR_LOCATION=/etc/jitsi -Dnet.java.sip.communicator.SC_HOME_DIR_NAME=videobridge -Dnet.java.sip.communicator.SC_LOG_DIR_LOCATION=/var/log/jitsi -Djava.util.logging.config.file=/etc/jitsi/videobridge/logging.properties"
 EOF
 
-cat << EOF > /etc/jitsi/jicofo/sip-communicator.properties
+cat << EOF > /etc/jitsi/videobridge/sip-communicator.properties
 org.ice4j.ice.harvest.DISABLE_AWS_HARVESTER=true
 org.ice4j.ice.harvest.STUN_MAPPING_HARVESTER_ADDRESSES=meet-jit-si-turnrelay.jitsi.net:443
 org.jitsi.jicofo.ALWAYS_TRUST_MODE_ENABLED=true
