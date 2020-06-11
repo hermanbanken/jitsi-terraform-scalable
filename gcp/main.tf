@@ -86,5 +86,13 @@ output "hostname" {
 }
 
 output "instance_group_jvb" {
-  value = module.mig-jvb.instance_group
+  value = {
+    instance_group = module.mig-jvb.instance_group
+  }
+}
+
+output "logs_cmds" {
+  value = {
+    meet = "gcloud compute ssh --zone ${var.jitsi_shard.zone} ${google_compute_instance_from_template.meet.name} --project ${var.gcp_project} -- sudo tail -n 100 -f /var/log/prosody/prosody.log /var/log/jitsi/jicofo.log"
+  }
 }

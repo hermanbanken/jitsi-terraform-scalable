@@ -1,4 +1,4 @@
-export JVB_NICKNAME=$(hostname)
+export JVB_NICKNAME=`hostname`
 
 # Installation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#installation-of-videobridges
@@ -9,7 +9,7 @@ apt-get install -qq jitsi-videobridge2
 # Configuration; and relevant MUC documentation
 # https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable#configuration-of-the-videobridge
 # https://github.com/jitsi/jitsi-videobridge/blob/0d6fb601878cbc735faa7261b9cc06195c842e41/doc/muc.md
-echo "Configuring jitsi-videobridge2 with nickanme $(hostname)"
+echo "Configuring jitsi-videobridge2 with nickname $${JVB_NICKNAME}"
 
 # IP addresses
 # No: "With the latest stable (April 2020) videobridge, it is no longer necessary to set public and private IP adresses in the sip-communicator.properties as the bridge will figure out the correct configuration by itself."
@@ -56,9 +56,10 @@ org.jitsi.videobridge.xmpp.user.shard-1.DOMAIN=auth.${jitsi_hostname}
 org.jitsi.videobridge.xmpp.user.shard-1.USERNAME=jvb
 org.jitsi.videobridge.xmpp.user.shard-1.PASSWORD=${jitsi_jvbsecret}
 org.jitsi.videobridge.xmpp.user.shard-1.MUC_JIDS=JvbBrewery@internal.auth.${jitsi_hostname}
-org.jitsi.videobridge.xmpp.user.shard-1.MUC_NICKNAME=\$JVB_NICKNAME
+org.jitsi.videobridge.xmpp.user.shard-1.MUC_NICKNAME=JVB_NICKNAME
 org.jitsi.videobridge.xmpp.user.shard-1.DISABLE_CERTIFICATE_VERIFICATION=true
 EOF
+sed -i "s|JVB_NICKNAME|$${JVB_NICKNAME}|g" /etc/jitsi/videobridge/sip-communicator.properties
 
 # Reload
 /etc/init.d/jitsi-videobridge2 restart
