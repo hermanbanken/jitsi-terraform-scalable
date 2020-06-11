@@ -1,6 +1,6 @@
 resource "google_compute_instance_template" "meet" {
   name = "jitsi-meet-${uuid()}"
-  tags = ["allow-jitsi-meet"]
+  tags = ["jitsi-meet"]
   labels = { "shard" = var.jitsi_shard.id }
   machine_type         = var.jitsi_shard.machineType
   scheduling {
@@ -25,7 +25,7 @@ resource "google_compute_instance_template" "meet" {
 
 resource "google_compute_instance_template" "jvb" {
   name        = "jitsi-jvb-${uuid()}"
-  tags = ["allow-jitsi-jvb"]
+  tags = ["jitsi-jvb"]
   labels = { "shard" = var.jitsi_shard.id }
   machine_type         = var.jitsi_shard.machineType
   scheduling {
