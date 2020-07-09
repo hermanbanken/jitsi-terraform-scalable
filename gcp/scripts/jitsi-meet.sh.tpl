@@ -2,7 +2,7 @@ echo "Starting to install Jitsi Meet (prosody, jicofo, meet)"
 
 # Include shared preparations above this line.
 apt-get -y install \
-  nginx \
+  nginx wget \
   prosody jicofo jitsi-meet-web jitsi-meet-prosody jitsi-meet-web-config \
   google-cloud-sdk
 
