@@ -23,6 +23,24 @@ sed -i "s|cross_domain_bosh = false|cross_domain_bosh = true|g" /etc/prosody/con
 /etc/init.d/prosody restart
 /etc/init.d/jicofo restart
 
+# Enable TurnCredentials
+# Use with Jitsi Meet Config option "useStunTurn: true"
+# see https://meetrix.io/blog/webrtc/jitsi/setting-up-a-turn-server-for-jitsi-meet.html
+curl https://raw.githubusercontent.com/otalk/mod_turncredentials/master/mod_turncredentials.lua > mod_turncredentials.lua
+cp mod_turncredentials.lua /usr/lib/prosody/modules/
+sed -i 's|"bosh";|"bosh";"turncredentials";|g' /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
+cat <<\EOF >> /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
+turncredentials_secret = "${COTURN_AUTH_SECRET}";
+turncredentials_port = 443;
+turncredentials_ttl = 86400;
+turncredentials = {
+    { type = "stun", host = "${COTURN_REALM}" },
+    { type = "turn", host = "${COTURN_REALM}", port = 443},
+    { type = "turns", host = "${COTURN_REALM}", port = 443, transport = "tcp" }
+}
+EOF
+/etc/init.d/prosody restart
+
 # LetsEncrypt
 if [ ! -d "/etc/letsencrypt/live" ]; then
   # See script: https://github.com/jitsi/jitsi-meet/blob/8758c222c6f4ffa6f2403ff1a4b097d3437b52a5/resources/install-letsencrypt-cert.sh

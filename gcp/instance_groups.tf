@@ -32,3 +32,16 @@ module "mig-jvb" {
   }]
   autoscaling_enabled = true
 }
+
+resource "google_compute_instance_from_template" "coturn" {
+  name         = "coturn-${local.shard_id}-${uuid()}"
+  source_instance_template = google_compute_instance_template.coturn.id
+  machine_type = var.jitsi_shard.sfuMachineType
+  zone         = var.jitsi_shard.zone
+  lifecycle { ignore_changes = [name] }
+  network_interface {
+    network = "default"
+    access_config {
+    }
+  }
+}

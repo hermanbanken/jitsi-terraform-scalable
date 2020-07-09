@@ -49,3 +49,28 @@ resource "google_compute_instance_template" "jvb" {
   service_account { scopes = ["userinfo-email", "compute-ro", "storage-ro", "logging-write"] }
   lifecycle { ignore_changes = [name] }
 }
+
+resource "google_compute_instance_template" "coturn" {
+  name        = "jitsi-coturn-${uuid()}"
+  tags = ["jitsi-coturn"]
+  labels = { "shard" = var.jitsi_shard.id }
+  machine_type         = var.jitsi_shard.sfuMachineType
+  scheduling {
+    automatic_restart   = false
+    on_host_maintenance = "MIGRATE"
+  }
+  disk {
+    source_image = "debian-cloud/debian-10"
+    auto_delete  = true
+    boot         = true
+  }
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+  metadata = {
+    "startup-script" = "${local.shared_script}\n ${local.coturn_script}"
+  }
+  service_account { scopes = ["userinfo-email", "compute-ro", "storage-ro", "logging-write"] }
+  lifecycle { ignore_changes = [name] }
+}

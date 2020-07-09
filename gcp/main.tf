@@ -15,11 +15,17 @@ resource "random_id" "jvb_secret" {
   byte_length = 64
 }
 
+resource "random_id" "coturn_secret" {
+  byte_length = 64
+}
+
 locals {
   shard_id = var.jitsi_shard.random != "" ? var.jitsi_shard.random : random_id.rnd.hex
   # External
   meet_hostname = trimsuffix("meet-${local.shard_id}.${var.dnszone_dnsname}", ".")
   meet_ip = google_compute_instance_from_template.meet.network_interface[0].access_config[0].nat_ip
+  coturn_hostname = trimsuffix("coturn-${local.shard_id}.${var.dnszone_dnsname}", ".")
+  coturn_ip = google_compute_instance_from_template.coturn.network_interface[0].access_config[0].nat_ip
   # Internal
   # [INSTANCE_NAME].c.[PROJECT_ID].internal
   # meet_internal_hostname = "${google_compute_instance_from_template.meet.name}.c.${var.gcp_project}.internal"
@@ -52,6 +58,14 @@ resource "google_dns_record_set" "meet" {
   rrdatas = [local.meet_ip]
 }
 
+resource "google_dns_record_set" "meet" {
+  name = "${local.coturn_hostname}."
+  type = "A"
+  ttl  = 300 /* 5 minutes */
+  managed_zone = google_dns_managed_zone.default.name
+  rrdatas = [local.coturn_ip]
+}
+
 resource "google_dns_record_set" "meet-auth" {
   name = "auth.${local.meet_hostname}."
   type = "A"
@@ -71,6 +85,8 @@ locals {
     jitsi_hostname = local.meet_hostname
     lets_encrypt_email = var.lets_encrypt_email
     file_nginx_site_conf = local.file_nginx_site_conf
+    COTURN_REALM = local.coturn_hostname
+    COTURN_AUTH_SECRET = random_id.coturn_secret.b64_std
   })
 
   file_videobridge_config = file("${path.module}/scripts/video-bridge-config.properties")
@@ -81,6 +97,10 @@ locals {
     jitsi_jvbsecret = random_id.jvb_secret.b64_std
     file_videobridge_config = local.file_videobridge_config
     file_sip_communicator = local.file_sip_communicator
+  })
+  coturn_script = templatefile("${path.module}/scripts/coturn.sh.tpl", {
+    COTURN_REALM = local.coturn_hostname
+    COTURN_AUTH_SECRET = random_id.coturn_secret.b64_std
   })
 }
 
