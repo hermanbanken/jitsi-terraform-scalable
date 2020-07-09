@@ -1,7 +1,7 @@
 resource "google_compute_instance_from_template" "meet" {
   name         = "jitsi-${local.shard_id}-meet-${uuid()}"
   source_instance_template = google_compute_instance_template.meet.id
-  machine_type = var.jitsi_shard.machineType
+  machine_type = var.jitsi_shard.xmppMachineType
   zone         = var.jitsi_shard.zone
 
   lifecycle { ignore_changes = [name] }

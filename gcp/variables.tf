@@ -16,7 +16,8 @@ variable "jitsi_shard" {
     size=number,
     region=string,
     zone=string,
-    machineType=string
+    sfuMachineType=string
+    xmppMachineType=string
   })
 	default     = {
     id = 1,
@@ -24,7 +25,8 @@ variable "jitsi_shard" {
     random = "",
     region = "europe-west1",
     zone = "europe-west1-b",
-    machineType = "f1-micro"
+    sfuMachineType = "f1-micro"
+    xmppMachineType = "f1-micro"
   }
 }
 

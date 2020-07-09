@@ -2,7 +2,7 @@ resource "google_compute_instance_template" "meet" {
   name = "jitsi-meet-${uuid()}"
   tags = ["jitsi-meet"]
   labels = { "shard" = var.jitsi_shard.id }
-  machine_type         = var.jitsi_shard.machineType
+  machine_type         = var.jitsi_shard.xmppMachineType
   scheduling {
     automatic_restart   = false
     on_host_maintenance = "MIGRATE"
@@ -29,7 +29,7 @@ resource "google_compute_instance_template" "jvb" {
   name        = "jitsi-jvb-${uuid()}"
   tags = ["jitsi-jvb"]
   labels = { "shard" = var.jitsi_shard.id }
-  machine_type         = var.jitsi_shard.machineType
+  machine_type         = var.jitsi_shard.sfuMachineType
   scheduling {
     automatic_restart   = false
     on_host_maintenance = "MIGRATE"

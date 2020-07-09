@@ -39,7 +39,8 @@ terraform apply -var-file terraform.tfvars.json
     "random": "random",
     "region": "europe-west4",
     "zone": "europe-west4-b",
-    "machineType": "n2-standard-4"
+    "sfuMachineType": "n2-standard-4",
+    "xmppMachineType": "n2-standard-2",
   }
 }
 ```
