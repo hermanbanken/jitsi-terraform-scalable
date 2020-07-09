@@ -8,7 +8,7 @@ resource "google_compute_instance_template" "meet" {
     on_host_maintenance = "MIGRATE"
   }
   disk {
-    source_image = "debian-cloud/debian-9"
+    source_image = "debian-cloud/debian-10"
     auto_delete  = true
     boot         = true
   }
@@ -35,7 +35,7 @@ resource "google_compute_instance_template" "jvb" {
     on_host_maintenance = "MIGRATE"
   }
   disk {
-    source_image = "debian-cloud/debian-9"
+    source_image = "debian-cloud/debian-10"
     auto_delete  = true
     boot         = true
   }
