@@ -12,7 +12,7 @@ realm=COTURN_REALM
 fingerprint
 listening-ip=0.0.0.0
 external-ip=EXTERNAL_IP
-listening-port=5443
+listening-port=433
 min-port=10000
 max-port=20000
 log-file=/var/log/turnserver.log
@@ -35,8 +35,12 @@ service coturn restart
 ###
 
 apt-get -y install certbot
-certbot certonly --standalone --preferred-challenges http -d ${COTURN_REALM}
 
+# Temporary move to port 5443 so LetsEncrypt can listen
+sed -i "s|listening-port=443|listening-port=5443|g" /etc/turnserver.conf
+service coturn restart
+
+certbot certonly --standalone --preferred-challenges http -d ${COTURN_REALM}
 cat <<\EOF >> /etc/turnserver.conf
 server-name=COTURN_REALM
 cert=/etc/letsencrypt/live/COTURN_REALM/cert.pem
