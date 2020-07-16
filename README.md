@@ -2,23 +2,31 @@
 
 Currently supports Google Cloud Platform (GCP) only.
 
+Warning: `terraform apply` will delete old resources also, if you rename the shard for example.
+
 ## How it works
 
-- Creates an 2 kinds of instances:
+- Creates an 3 kinds of instances:
 
   1. jitsi-meet (prosody, jicofo, jitsi-meet, nginx): 1 jitsi-meet server
   2. jitsi-video-bridge (JVB/SFU): **more than 2 jvb** for scalability joined in a Managed Instance Group with autoscaling
+  3. coturn
 
 - Creates startup scripts for each of the instances above
 - Creates required firewall configuration
 
 ## Manual steps
+- `brew install terraform`
 - Create terraform.tfvars.json
 - [Verify <yoursubdomain.example.org> name with Google](https://www.google.com/webmasters/verification/verification?domain=yoursubdomain.example.org)
 
 ## Example configuration
 
 ```bash
+terraform workspace list
+terraform workspace new [MYNAME]
+terraform workspace select [MYNAME]
+
 terraform init
 terraform import -var-file=terraform.tfvars.json google_compute_network.default default
 terraform import -var-file=terraform.tfvars.json google_dns_managed_zone.default [name of your preconfigured dns zone]
