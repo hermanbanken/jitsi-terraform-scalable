@@ -12,7 +12,7 @@ realm=COTURN_REALM
 fingerprint
 listening-ip=0.0.0.0
 external-ip=EXTERNAL_IP
-listening-port=443
+listening-port=5443
 min-port=10000
 max-port=20000
 log-file=/var/log/turnserver.log
@@ -42,4 +42,5 @@ cert=/etc/letsencrypt/live/COTURN_REALM/cert.pem
 pkey=/etc/letsencrypt/live/COTURN_REALM/privkey.pem
 EOF
 sed -i "s|COTURN_REALM|${COTURN_REALM}|g" /etc/turnserver.conf
+sed -i "s|listening-port=5443|listening-port=443|g" /etc/turnserver.conf
 service coturn restart
