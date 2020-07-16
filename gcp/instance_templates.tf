@@ -69,7 +69,9 @@ resource "google_compute_instance_template" "coturn" {
     access_config {}
   }
   metadata = {
-    "startup-script" = "${local.shared_script}\n ${local.coturn_script}"
+    "startup-script" = ""
+    # disabled for now:
+    # "startup-script" = "${local.shared_script}\n ${local.coturn_script}"
   }
   service_account { scopes = ["userinfo-email", "compute-ro", "storage-ro", "logging-write"] }
   lifecycle { ignore_changes = [name] }
