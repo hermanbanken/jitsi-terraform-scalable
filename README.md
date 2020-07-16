@@ -87,3 +87,5 @@ Debug coturn with `tail -f /var/log/turnserver*`
 - Terraform: https://www.terraform.io/docs/providers/google/
 - "doc/example-config-files/scalable" files in https://github.com/jitsi/jitsi-meet/commit/f2df5906f6231cb586257d23055f545c24200350
 - Load Balance based on `room=[roomid]` parameter: https://community.jitsi.org/t/jitsi-meet-jicofo-jvb-prosody-high-availability-and-load-balance/21450/4
+- Prosody Coturn (mod_turncredentials) docs: https://prosody.im/doc/coturn
+- XEP references are here, for example XEP-0215: https://xmpp.org/extensions/xep-0215.html#usecases

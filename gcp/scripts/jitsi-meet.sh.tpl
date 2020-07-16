@@ -31,6 +31,7 @@ curl https://raw.githubusercontent.com/otalk/mod_turncredentials/master/mod_turn
 cp mod_turncredentials.lua /usr/lib/prosody/modules/
 sed -i 's|"bosh";|"bosh";"turncredentials";|g' /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
 cat <<\EOF >> /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
+turncredentials_host = "${COTURN_REALM}";
 turncredentials_secret = "${COTURN_AUTH_SECRET}";
 turncredentials_port = 443;
 turncredentials_ttl = 86400;

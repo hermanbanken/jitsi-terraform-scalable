@@ -18,6 +18,7 @@ max-port=20000
 log-file=/var/log/turnserver.log
 verbose
 # Time-Limited Credentials Mechanism
+use-auth-secret
 static-auth-secret=COTURN_AUTH_SECRET
 EOF
 
