@@ -58,7 +58,7 @@ resource "google_dns_record_set" "meet" {
   rrdatas = [local.meet_ip]
 }
 
-resource "google_dns_record_set" "meet" {
+resource "google_dns_record_set" "coturn" {
   name = "${local.coturn_hostname}."
   type = "A"
   ttl  = 300 /* 5 minutes */
