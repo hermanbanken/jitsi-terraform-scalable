@@ -5,12 +5,14 @@ apt-get -qq update
 apt-get -qq install coturn curl
 echo "TURNSERVER_ENABLED=1" >> /etc/default/coturn
 
+setcap 'cap_net_bind_service=+ep' /usr/bin/turnserver
+
 cat <<\EOF > /etc/turnserver.conf
 realm=COTURN_REALM
 fingerprint
 listening-ip=0.0.0.0
 external-ip=EXTERNAL_IP
-listening-port=3478
+listening-port=443
 min-port=10000
 max-port=20000
 log-file=/var/log/turnserver.log
@@ -30,11 +32,6 @@ service coturn restart
 ###
 ### LetsEncrypt
 ###
-
-apt-get -y install software-properties-common &&\
-add-apt-repository -y universe &&\
-add-apt-repository -y ppa:certbot/certbot &&\
-apt-get -y update &&\
 
 apt-get -y install certbot
 certbot certonly --standalone --preferred-challenges http -d ${COTURN_REALM}

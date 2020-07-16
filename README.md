@@ -67,6 +67,10 @@ tail -f /var/log/jitsi/jvb.log
 journalctl --since "1 hour ago" -f
 ```
 
+You can test Coturn servers with time-limited credentials with a bit of effort:
+- read: https://meetrix.io/blog/webrtc/coturn/installation.html#testing
+- use: https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
+
 ## TODO
 - [x] Implement scalable setup from https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-scalable
 - [ ] Add option for HAProxy for scalable/highly-available jitsi-meet and XMPP server
