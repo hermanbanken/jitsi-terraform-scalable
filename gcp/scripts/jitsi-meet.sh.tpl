@@ -17,6 +17,7 @@ sed -i "s|JITSI_HOSTNAME|${jitsi_hostname}|g" /etc/nginx/sites-available/${jitsi
 cd /etc/nginx/sites-enabled
 ln -s ../sites-available/${jitsi_hostname}.conf ${jitsi_hostname}.conf
 nginx -s reload
+cd /tmp
 
 # Enable CORS for BOSH in Prosody Lua config
 sed -i "s|cross_domain_bosh = false|cross_domain_bosh = true|g" /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
