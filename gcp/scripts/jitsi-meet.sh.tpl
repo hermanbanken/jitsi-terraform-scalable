@@ -30,7 +30,9 @@ sed -i "s|cross_domain_bosh = false|cross_domain_bosh = true|g" /etc/prosody/con
 curl https://raw.githubusercontent.com/otalk/mod_turncredentials/master/mod_turncredentials.lua > mod_turncredentials.lua
 cp mod_turncredentials.lua /usr/lib/prosody/modules/
 sed -i 's|"bosh";|"bosh";"turncredentials";|g' /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
-cat <<\EOF >> /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
+
+# prepend these settings:
+cat <<\EOF >> turnsettings.lua.tmp
 turncredentials_host = "${COTURN_REALM}";
 turncredentials_secret = "${COTURN_AUTH_SECRET}";
 turncredentials_port = 443;
@@ -41,6 +43,8 @@ turncredentials = {
     { type = "turns", host = "${COTURN_REALM}", port = 443, transport = "tcp" }
 }
 EOF
+cat turnsettings.lua.tmp /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua > /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua.tmp
+mv /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua.tmp /etc/prosody/conf.avail/${jitsi_hostname}.cfg.lua
 /etc/init.d/prosody restart
 
 # LetsEncrypt
